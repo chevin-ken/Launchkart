@@ -19,6 +19,8 @@ import threading
 
 from pynput import keyboard
 
+import os
+
 def resize_image(img):
     im = resize(img, (Sample.IMG_H, Sample.IMG_W, Sample.IMG_D))
     im_arr = im.reshape((Sample.IMG_H, Sample.IMG_W, Sample.IMG_D))
@@ -282,6 +284,10 @@ def prepare(samples):
 
     print("Saving to file...")
     y = np.concatenate(y)
+
+    dataPath = os.path.join(os.getcwd(), "data")
+    if not os.path.exists(dataPath):
+        os.mkdir(dataPath)
 
     np.save("data/X", X)
     np.save("data/y", y)
