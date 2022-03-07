@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+#TODO: Copy paste your agent architectures that you want to use for evaluation here:
 class MarioKartBCAgent(nn.Module):
     def __init__(self):
         super(MarioKartBCAgent, self).__init__()
