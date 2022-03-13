@@ -11,6 +11,8 @@ from datetime import datetime
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg as FigCanvas
 
+import win32gui
+
 from PIL import ImageTk, Image
 
 import sys
@@ -34,21 +36,40 @@ IMAGE_SIZE = (320, 240)
 IDLE_SAMPLE_RATE = 1500
 SAMPLE_RATE = 200
 IMAGE_TYPE = ".png"
-
-XSHIFT = 100
-YSHIFT = 100
+WINDOW_SIZE = (640, 480)
 
 class MainWindow():
     """ Main frame of the application
     """
 
     def __init__(self, controller_type):
+        try:
+            windowHandle  = win32gui.FindWindowEx(None, None, None, "Mupen64Plus OpenGL Video Plugin by Rice v2.5.9")
+            GWL_STYLE = -16  #  see https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowlonga
+
+            #  get current window style
+            currentStyle = win32gui.GetWindowLong(windowHandle, GWL_STYLE)
+
+            #  remove titlebar elements
+            currentStyle = currentStyle & ~(0x00C00000)  #  WS_CAPTION
+            currentStyle = currentStyle & ~(0x00080000)  #  WS_SYSMENU
+            currentStyle = currentStyle & ~(0x00040000)  #  WS_THICKFRAME
+            currentStyle = currentStyle & ~(0x20000000)  #  WS_MINIMIZE
+            currentStyle = currentStyle & ~(0x00010000)  #  WS_MAXIMIZEBOX
+
+            #  apply new style
+            win32gui.SetWindowLong(windowHandle, GWL_STYLE, currentStyle)
+            win32gui.MoveWindow(windowHandle, 0, 0, *WINDOW_SIZE, True)
+        except:
+            print("Error: Failed to find valid emulator window. Defaulting to original setup.")
+
         self.root = tk.Tk()
         self.sct = mss.mss()
 
         self.root.title('Data Acquisition')
         self.root.geometry("660x325")
         self.root.resizable(False, False)
+
 
         # Init controller
         if controller_type == "keyboard":
@@ -132,10 +153,10 @@ class MainWindow():
 
     def take_screenshot(self):
         # Get raw pixels from the screen
-        sct_img = self.sct.grab({  "top": Screenshot.OFFSET_Y + YSHIFT,
-                                  "left": Screenshot.OFFSET_X + XSHIFT,
-                                 "width": Screenshot.SRC_W,
-                                "height": Screenshot.SRC_H})
+        sct_img = self.sct.grab({  "top": 0,
+                                  "left": 0,
+                                 "width": WINDOW_SIZE[0],
+                                "height": WINDOW_SIZE[1]})
 
         # Create the Image
         return Image.frombytes('RGB', sct_img.size, sct_img.bgra, 'raw', 'BGRX')
