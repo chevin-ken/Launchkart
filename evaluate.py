@@ -15,8 +15,9 @@ class Actor(object):
 
     def __init__(self, controller_type, agent_path):
         # Load in model from train.py and load in the trained weights
+        device = torch.device('cpu')
         self.model = MarioKartBCAgent()
-        self.model.load_state_dict(torch.load(agent_path))
+        self.model.load_state_dict(torch.load(agent_path, map_location=device))
 
         # Init controller
         # if controller_type == "keyboard":
