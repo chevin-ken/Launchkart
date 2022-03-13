@@ -35,6 +35,9 @@ IDLE_SAMPLE_RATE = 1500
 SAMPLE_RATE = 200
 IMAGE_TYPE = ".png"
 
+XSHIFT = 100
+YSHIFT = 100
+
 class MainWindow():
     """ Main frame of the application
     """
@@ -129,8 +132,8 @@ class MainWindow():
 
     def take_screenshot(self):
         # Get raw pixels from the screen
-        sct_img = self.sct.grab({  "top": Screenshot.OFFSET_Y,
-                                  "left": Screenshot.OFFSET_X,
+        sct_img = self.sct.grab({  "top": Screenshot.OFFSET_Y + YSHIFT,
+                                  "left": Screenshot.OFFSET_X + XSHIFT,
                                  "width": Screenshot.SRC_W,
                                 "height": Screenshot.SRC_H})
 
