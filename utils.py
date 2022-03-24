@@ -263,11 +263,12 @@ def prepare(samples):
 
     print(f"There are {num_samples} samples")
 
-    X = np.empty(shape=(num_samples, Sample.IMG_H, Sample.IMG_W, 3), dtype=np.uint8)
+    X = np.empty(shape=(num_samples, Sample.IMG_H, Sample.IMG_W, 3), dtype=np.float64)
     y = []
 
-    for idx, sample in enumerate(samples):
-        print(sample)
+    count = 0
+    for _, sample in enumerate(samples):
+        print("Sample: ", sample)
 
         # load sample
         image_files, joystick_values = load_sample(sample)
@@ -280,7 +281,8 @@ def prepare(samples):
             print(image_file)
             image = imread(image_file)
             vec = resize_image(image)
-            X[idx] = vec
+            X[count] = vec
+            count += 1
 
     print("Saving to file...")
     y = np.concatenate(y)
