@@ -100,7 +100,8 @@ ADD "https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h" skipcache
 # Install requirements & this package
 RUN cd /src/gym-mupen64plus && \
     git pull && \
-    pip3 install -e . 
+    pip3 install -e . && \
+    pip3 install inputs
 
 COPY ./ROMs/marioKart.n64 /src/gym-mupen64plus/gym_mupen64plus/ROMs
 
