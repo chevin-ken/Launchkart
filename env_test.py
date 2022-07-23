@@ -1,7 +1,7 @@
 #!/bin/python
 import gym, gym_mupen64plus
 
-env = gym.make('Mario-Kart-Luigi-Raceway-v0')
+env = gym.make('Mario-Kart-Moo-Moo-Farm-v0')
 env.reset()
 
 print("NOOP waiting for green light")

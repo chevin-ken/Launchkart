@@ -13,11 +13,11 @@ from skimage.io import imread
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 
-from inputs import get_gamepad
+# from inputs import get_gamepad
 import math
 import threading
 
-from pynput import keyboard
+# from pynput import keyboard
 
 import os
 

@@ -2,7 +2,7 @@
 
 # from utils import resize_image, XboxController, KeyboardController
 from utils import resize_image
-from bc_agent_model import MarioKartBCAgent
+from bc_agent_model import MarioKartBCAgentV3, MarioKartBCAgentWinston
 from termcolor import cprint
 
 import os
@@ -17,7 +17,7 @@ class Actor(object):
     def __init__(self, controller_type, agent_path):
         # Load in model from train.py and load in the trained weights
         device = torch.device('cpu')
-        self.model = MarioKartBCAgent()
+        self.model = MarioKartBCAgentWinston()
         self.model.load_state_dict(torch.load(agent_path, map_location=device))
 
         # Init controller
@@ -70,8 +70,8 @@ parser.add_argument('-agent_path', '-a', type=str, default='', help=
 parser.add_argument('-track', '-t', type=str, default='Mario-Kart-Luigi-Raceway-v0', help=
         'Enter the racetrack name you want to evaluate on'
 )
-parser.add_argument('--dagger', action=argparse.BooleanOptionalAction)
-
+# parser.add_argument('--dagger', action=argparse.BooleanOptionalAction)
+dagger = False
 args = parser.parse_args()
 
 env = gym.make(args.track)
@@ -88,7 +88,7 @@ actions = []
 while not end_episode:
     resized_obs = resize_image(obs)
     action, override = actor.get_action(resized_obs)
-    if args.dagger and override:
+    if dagger and override:
         observations.append(resized_obs)
         actions.append(action)
     obs, reward, end_episode, info = env.step(action)

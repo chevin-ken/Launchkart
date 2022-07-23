@@ -58,7 +58,7 @@ services:
       - ./:/src/launchkart
     # command: [ 'python3', '-u', "/src/launchkart/env_test.py" ] # -u for unbuffered output so logs show immediately (in theory)
     # command: ['python3', '-u', '/src/launchkart/ppo_baseline.py']
-    command: [ 'python3', '-u', "/src/launchkart/evaluate.py", '-c', 'keyboard', '-a', '/src/launchkart/saved_agents/kevin_ashley_data_luigicircuit/99', '-t', 'Mario-Kart-Luigi-Raceway-v0'] 
+    command: [ 'python3', '-u', "/src/launchkart/evaluate.py", '-c', 'keyboard', '-a', '/src/launchkart/saved_agents/winston/59', '-t', 'Mario-Kart-Luigi-Raceway-v0'] 
 
     depends_on: [ xvfbsrv ]
 
